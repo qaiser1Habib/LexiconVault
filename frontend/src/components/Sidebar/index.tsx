@@ -1,14 +1,23 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { ALPHABET } from '../../App';
+import { ALPHABET, mockWords } from '../../App';
 
 interface SidebarProps {
   dark: boolean;
   setActiveLetter: (letter: string | null) => void;
   setSearch: Dispatch<SetStateAction<string>>;
   letterCounts: Record<string, number>;
+  activeLetter: string | null;
+  search: string;
 }
 
-const Sidebar = ({ dark, setActiveLetter, setSearch, letterCounts }: SidebarProps) => {
+const Sidebar = ({
+  dark,
+  activeLetter,
+  search,
+  setActiveLetter,
+  setSearch,
+  letterCounts,
+}: SidebarProps) => {
   return (
     <div className="sticky top-20 self-start">
       <div
@@ -36,7 +45,7 @@ const Sidebar = ({ dark, setActiveLetter, setSearch, letterCounts }: SidebarProp
             }`}
           >
             All words
-            <span className="text-[11px] opacity-70">{111}</span>
+            <span className="text-[11px] opacity-70">{mockWords.length}</span>
           </button>
           {ALPHABET.map((l) => (
             <button

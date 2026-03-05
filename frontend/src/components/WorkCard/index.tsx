@@ -1,19 +1,17 @@
 import { useState } from 'react';
-import type { Word } from '../../types/WordType';
-import type { AiData } from '../../types/AiDataType';
+import type { mockWords } from '../../App';
 import { AiSection } from '../AiSection';
 
-interface WordCardProps {
-  word: Word;
+export function WordCard({
+  word,
+  dark,
+  defaultOpen = false,
+}: {
+  word: (typeof mockWords)[0];
   dark: boolean;
-  onEdit: (w: Word) => void;
-  onDelete: (id: string) => void;
-  onAiSave: (id: string, ai: AiData) => void;
-}
-
-export function WordCard({ word, dark, onEdit, onDelete, onAiSave }: WordCardProps) {
-  const [expanded, setExpanded] = useState(false);
-
+  defaultOpen?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(defaultOpen);
   const labelClass = `text-[11px] font-semibold uppercase tracking-wider mb-1 block opacity-60 ${dark ? 'text-slate-400' : 'text-slate-500'}`;
 
   return (
@@ -54,9 +52,9 @@ export function WordCard({ word, dark, onEdit, onDelete, onAiSave }: WordCardPro
           </p>
         </div>
         <span
-          className={`text-base mt-0.5 flex-shrink-0 ${dark ? 'text-slate-500' : 'text-slate-400'}`}
+          className={`text-base mt-0.5 flex-shrink-0 transition-transform duration-200 ${expanded ? 'rotate-180' : ''} ${dark ? 'text-slate-500' : 'text-slate-400'}`}
         >
-          {expanded ? '▲' : '▼'}
+          ▼
         </span>
       </div>
 
@@ -83,24 +81,13 @@ export function WordCard({ word, dark, onEdit, onDelete, onAiSave }: WordCardPro
             </div>
           )}
 
-          <AiSection
-            word={word}
-            aiData={word.aiData}
-            dark={dark}
-            onSave={(ai) => onAiSave(word.id, ai)}
-          />
+          <AiSection word={word} dark={dark} />
 
           <div className="flex gap-2 mt-3.5">
-            <button
-              onClick={() => onEdit(word)}
-              className="px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 text-[13px] font-medium bg-transparent cursor-pointer hover:bg-blue-50 transition-colors"
-            >
+            <button className="px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 text-[13px] font-medium bg-transparent cursor-pointer hover:bg-blue-50 transition-colors">
               Edit
             </button>
-            <button
-              onClick={() => onDelete(word.id)}
-              className="px-3 py-1.5 rounded-lg border border-red-200 text-red-500 text-[13px] font-medium bg-transparent cursor-pointer hover:bg-red-50 transition-colors"
-            >
+            <button className="px-3 py-1.5 rounded-lg border border-red-200 text-red-500 text-[13px] font-medium bg-transparent cursor-pointer hover:bg-red-50 transition-colors">
               Delete
             </button>
           </div>
